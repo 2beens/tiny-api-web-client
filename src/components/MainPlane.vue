@@ -34,24 +34,27 @@
 
     <!-- server status -->
     <v-row>
-      <v-col>
+      <v-col cols="4">
         <ServerStatus/>
       </v-col>
+      <v-col cols="8">
+        <ServerActions/>
+      </v-col>
     </v-row>
-
-    <!-- actions -->
 
   </v-container>
 </template>
 
 <script>
 import ServerStatus from './ServerStatus.vue';
+import ServerActions from './ServerActions.vue';
 
 export default {
   name: 'MainPlane',
 
   components: {
     ServerStatus,
+    ServerActions,
   },
 
   data: () => ({
