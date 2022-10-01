@@ -39,10 +39,24 @@
     <v-card-actions>
       <v-btn
         text
-        color="teal accent-4"
-        @click="onHarakiri"
+        color="red accent-4"
+        @click="makeRequest('/harakiri')"
       >
         Harakiri!
+      </v-btn>
+      <v-btn
+        text
+        color="teal accent-4"
+        @click="makeRequest('/health')"
+      >
+        Health
+      </v-btn>
+      <v-btn
+        text
+        color="teal accent-4"
+        @click="makeRequest('/')"
+      >
+        Root Call
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -67,17 +81,17 @@ export default {
       console.log('setting api endpoint to: ', this.apiEndpoint)
       this.setAPIEndpoint(this.apiEndpoint)
     },
-    onHarakiri () {
-      console.warn('harakiri called')
+    makeRequest (actionPath) {
+      console.warn('calling:', actionPath)
       const vm = this
       axios
-        .get(vm.getAPIEndpoint() + '/harakiri')
+        .get(vm.getAPIEndpoint() + actionPath)
         .then(response => {
           if (response === null || response.data === null) {
-            console.error('harakiri call: received null response / data')
+            console.error('calling:', actionPath, 'received null response / data')
             return
           }
-          console.log('harakiri response: ', response.data)
+          console.log(actionPath, 'response: ', response.data)
           vm.response = response.data.message
           if (!vm.response || vm.response === '') {
             vm.response = response.data
