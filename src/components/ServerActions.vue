@@ -2,11 +2,35 @@
   <v-card
     class="mx-auto"
   >
-    <v-card-title>Server Actions</v-card-title>
+    <v-card-title>
+      <v-row>
+        <v-col cols="4">          
+          <h2>Server Actions</h2>
+        </v-col>
+        <v-col cols="6">
+          <v-text-field
+            v-model="apiEndpoint"
+            label="API Endpoint"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-btn
+            tile
+            color="success"
+            @click="onSetEndpoint"
+          >
+            <v-icon left>
+              mdi-pencil
+            </v-icon>
+            Set
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card-title>
 
     <v-card-text>
       <p class="text-h4 text--primary">
-        {{response}}
+        Resp: <span style="font-weight: 300; background-color: aqua;"> {{response}} </span>
       </p>
     </v-card-text>
 
@@ -16,7 +40,7 @@
       <v-btn
         text
         color="teal accent-4"
-        @click="harakiri"
+        @click="onHarakiri"
       >
         Harakiri!
       </v-btn>
@@ -31,15 +55,23 @@ export default {
   name: 'ServerActions',
 
   data: () => ({
-    response: 'still empty...'
+    response: 'still empty...',
+    apiEndpoint: '',
   }),
 
   methods: {
-    harakiri () {
+    onSetEndpoint () {
+      if (!this.apiEndpoint || this.apiEndpoint === '') {
+        return
+      }
+      console.log('setting api endpoint to: ', this.apiEndpoint)
+      this.setAPIEndpoint(this.apiEndpoint)
+    },
+    onHarakiri () {
       console.warn('harakiri called')
       const vm = this
       axios
-        .get(process.env.VUE_APP_TINY_API_ENDPOINT + '/harakiri')
+        .get(vm.getAPIEndpoint() + '/harakiri')
         .then(response => {
           if (response === null || response.data === null) {
             console.error('harakiri call: received null response / data')
@@ -56,6 +88,10 @@ export default {
           vm.response = error.message
         })
     },
+  },
+
+  mounted: function () {
+    this.apiEndpoint = this.getAPIEndpoint()
   },
 }
 </script>

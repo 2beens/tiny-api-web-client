@@ -45,7 +45,7 @@ export default {
       this.status = 'checking ...'
       const vm = this
       axios
-        .get(process.env.VUE_APP_TINY_API_ENDPOINT + '/ping')
+        .get(vm.getAPIEndpoint() + '/ping')
         .then(response => {
           if (response === null || response.data === null) {
             console.error('ping server: received null response / data')
