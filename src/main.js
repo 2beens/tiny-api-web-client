@@ -12,8 +12,12 @@ Vue.mixin({
       const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(aDate)
       return `${da}-${mo}-${ye}`
     },
-    getTimestampString (date) {
-      const hourInfo = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2)
+    getTimestampString (date, showOnlyTime) {
+      const hourInfo = ('0' + date.getHours()).slice(-2) + ':' + (date.getMinutes()) + ':' + ('0' + date.getSeconds()).slice(-2)
+
+      if (showOnlyTime) {
+        return hourInfo
+      }
 
       const y = date.getFullYear()
       const m = date.getMonth()

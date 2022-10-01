@@ -30,7 +30,7 @@
 
     <v-card-text>
       <p class="text-h4 text--primary">
-        Resp: <span style="font-weight: 300; background-color: aqua;"> {{response}} </span>
+        Resp: <span style="font-weight: 300; color: cornflowerblue;">{{responseTime}}</span> <span style="font-weight: 300; background-color: aqua;">{{response}}</span>
       </p>
     </v-card-text>
 
@@ -69,7 +69,8 @@ export default {
   name: 'ServerActions',
 
   data: () => ({
-    response: 'still empty...',
+    responseTime: '',
+    response: '...',
     apiEndpoint: '',
   }),
 
@@ -90,8 +91,11 @@ export default {
           if (response === null || response.data === null) {
             console.error('calling:', actionPath, 'received null response / data')
             return
-          }
+          }          
           console.log(actionPath, 'response: ', response.data)
+
+          vm.responseTime = vm.getTimestampString(new Date(), true)
+
           vm.response = response.data.message
           if (!vm.response || vm.response === '') {
             vm.response = response.data
