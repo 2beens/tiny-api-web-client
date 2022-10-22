@@ -110,7 +110,7 @@ export default {
 
   mounted: function () {
     this.apiEndpoint = this.getAPIEndpoint()
-  },
+  }
 }
 </script>
   

@@ -17,6 +17,12 @@
             target="_blank"
           >2beens/tiny-api</a>
           <br/>
+          Go Tiny Service [tiny stock exchange]: 
+          <a
+            href="https://github.com/2beens/tiny-service"
+            target="_blank"
+          >2beens/tiny-service</a>
+          <br/>
           k8s configs:
           <a
             href="https://github.com/2beens/tiny-api-k8s"
@@ -32,13 +38,21 @@
       </v-col>
     </v-row>
 
-    <!-- server status -->
     <v-row>
-      <v-col cols="4">
+      <v-col cols="3">
         <ServerStatus/>
       </v-col>
-      <v-col cols="8">
+      <v-col cols="9">
         <ServerActions/>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="3">
+        <TinyStockExchangeStatus/>
+      </v-col>
+      <v-col cols="9">
+        <TinyStockExchange/>
       </v-col>
     </v-row>
 
@@ -46,8 +60,10 @@
 </template>
 
 <script>
-import ServerStatus from './ServerStatus.vue';
-import ServerActions from './ServerActions.vue';
+import ServerStatus from './ServerStatus.vue'
+import ServerActions from './ServerActions.vue'
+import TinyStockExchangeStatus from './TinyStockExchangeStatus.vue'
+import TinyStockExchange from './TinyStockExchange.vue'
 
 export default {
   name: 'MainPlane',
@@ -55,11 +71,9 @@ export default {
   components: {
     ServerStatus,
     ServerActions,
-  },
-
-  data: () => ({
-    
-  }),
+    TinyStockExchangeStatus,
+    TinyStockExchange,
+  }
 }
 </script>
 
