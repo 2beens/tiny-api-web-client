@@ -44,6 +44,16 @@
             <v-list-item-title v-html="item.title"></v-list-item-title>
             <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
           </v-list-item-content>
+
+          <v-list-item-action>
+            <v-btn
+              text
+              color="teal accent-4"
+              @click="getChart(item.ticker)"
+            >
+              Get Chart
+            </v-btn>
+          </v-list-item-action>
         </v-list-item>
       </template>
     </v-list>
@@ -57,18 +67,14 @@ const defaultAvatarUrl = 'https://cdn-icons-png.flaticon.com/512/3781/3781628.pn
 
 export default {
   data: () => ({
-    items: [
-      { header: 'Received stocks' },
-      // {
-      //   avatar: defaultAvatarUrl,
-      //   title: 'Some Title',
-      //   subtitle: `<span class="text--primary">Test Name</span> doin it`,
-      // },
-      // { divider: true, inset: true },
-    ],
+    items: []
   }),
 
   methods: {
+    getChart(ticker) {
+      console.warn(ticker)
+    },
+
     refreshStocksList () {
       const vm = this
       axios
@@ -91,6 +97,7 @@ export default {
           stocks.forEach(s => {
             vm.items.push({
               avatar: defaultAvatarUrl,
+              ticker: s.ticker,
               title: s.ticker,
               subtitle: s.name,
             })
