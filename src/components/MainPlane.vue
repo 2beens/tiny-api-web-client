@@ -39,19 +39,20 @@
     </v-row>
 
     <v-row>
-      <v-col cols="4">
+      <v-col cols="3">
         <ServerStatus/>
       </v-col>
-      <v-col cols="8">
+      <v-col cols="9">
         <ServerActions/>
       </v-col>
     </v-row>
 
     <v-row>
-      <v-col cols="4">
+      <v-col cols="3">
         <TinyStockExchangeStatus/>
       </v-col>
-      <v-col cols="8">
+      <v-col cols="9">
+        <TinyStockExchange/>
       </v-col>
     </v-row>
 
@@ -62,6 +63,7 @@
 import ServerStatus from './ServerStatus.vue'
 import ServerActions from './ServerActions.vue'
 import TinyStockExchangeStatus from './TinyStockExchangeStatus.vue'
+import TinyStockExchange from './TinyStockExchange.vue'
 
 export default {
   name: 'MainPlane',
@@ -69,7 +71,8 @@ export default {
   components: {
     ServerStatus,
     ServerActions,
-    TinyStockExchangeStatus
+    TinyStockExchangeStatus,
+    TinyStockExchange
   },
 
   data: () => ({

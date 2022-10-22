@@ -1,7 +1,6 @@
 <template>
   <v-card
     class="mx-auto"
-    max-width="344"
   >
     <v-card-title>
       Server Status
@@ -68,7 +67,7 @@ export default {
     setInterval(() => {
       console.log('pinging server ...')
       this.getStatus()
-    }, 5000)
+    }, 60000)
   },
 }
 </script>

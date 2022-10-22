@@ -1,37 +1,36 @@
 <template>
-    <v-card
-      class="mx-auto"
-      max-width="344"
-    >
-      <v-card-title>
-        Tiny Stock Exchange Status
-        <v-icon v-if="errStatus" large color="red darken-2">mdi-circle</v-icon>
-        <v-icon v-else-if="checking" large color="yellow darken-2">mdi-circle</v-icon>
-        <v-icon v-else-if="!isInReadyStatus" large color="yellow darken-2">mdi-circle</v-icon>
-        <v-icon v-else-if="isInReadyStatus" large color="green darken-2">mdi-circle</v-icon>
-      </v-card-title>
+  <v-card
+    class="mx-auto"
+  >
+    <v-card-title>
+      Tiny Stock Exchange Status
+      <v-icon v-if="errStatus" large color="red darken-2">mdi-circle</v-icon>
+      <v-icon v-else-if="checking" large color="yellow darken-2">mdi-circle</v-icon>
+      <v-icon v-else-if="!isInReadyStatus" large color="yellow darken-2">mdi-circle</v-icon>
+      <v-icon v-else-if="isInReadyStatus" large color="green darken-2">mdi-circle</v-icon>
+    </v-card-title>
+
+    <v-card-text>
+      <p class="text-h4 text--primary">
+        {{status}}
+      </p>
+    </v-card-text>
+
+    <v-divider class="mx-4"></v-divider>
+
+    <v-card-actions>
+      <v-btn
+        text
+        color="teal accent-4"
+        @click="getStatus"
+      >
+        Check now!
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</template>
   
-      <v-card-text>
-        <p class="text-h4 text--primary">
-          {{status}}
-        </p>
-      </v-card-text>
-  
-      <v-divider class="mx-4"></v-divider>
-  
-      <v-card-actions>
-        <v-btn
-          text
-          color="teal accent-4"
-          @click="getStatus"
-        >
-          Check now!
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </template>
-  
-  <script>
+<script>
   import axios from 'axios'
   
   export default {
@@ -78,7 +77,7 @@
       setInterval(() => {
         console.log('pinging server ...')
         this.getStatus()
-      }, 5000)
+      }, 60000)
     },
   }
   </script>
