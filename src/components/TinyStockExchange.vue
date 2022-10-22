@@ -30,7 +30,6 @@ export default {
     showChart(stock) {
       this.selectedStock = stock
 
-      console.warn('getting value deltas for', stock.ticker)
       const vm = this
       axios
         .get(vm.getAPIEndpoint() + '/tse/deltas')
@@ -40,15 +39,12 @@ export default {
             return
           }
 
-          console.log('get stock value deltas', response.data)
           if (response.data.result !== 'ok') {
             console.error('received non ok response', response.data.message)
             return
           }
 
           const deltas = JSON.parse(response.data.message)
-          console.log(deltas)
-
           vm.selectedStock.deltas = deltas
         })
         .catch(error => {

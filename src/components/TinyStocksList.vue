@@ -81,7 +81,6 @@ export default {
             return
           }
 
-          console.log('all stocks response', response.data)
           if (response.data.result !== 'ok') {
             console.error('received non ok response', response.data.message)
             return
