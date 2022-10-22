@@ -72,12 +72,8 @@ export default {
     ServerStatus,
     ServerActions,
     TinyStockExchangeStatus,
-    TinyStockExchange
-  },
-
-  data: () => ({
-    
-  }),
+    TinyStockExchange,
+  }
 }
 </script>
 

@@ -1,124 +1,60 @@
 <template>
-  <v-card
-    max-width="550"
-    class="mx-auto"
-  >
-    <v-toolbar
-      color="cyan"
-      dark
-    >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Tiny Stock Exchange</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-toolbar>
-
-    <v-list three-line>
-      <template v-for="(item, index) in items">
-        <v-subheader
-          v-if="item.header"
-          :key="item.header"
-          v-text="item.header"
-        ></v-subheader>
-
-        <v-divider
-          v-else-if="item.divider"
-          :key="index"
-          :inset="item.inset"
-        ></v-divider>
-
-        <v-list-item
-          v-else
-          :key="item.title"
-        >
-          <v-list-item-avatar>
-            <v-img :src="item.avatar"></v-img>
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title v-html="item.title"></v-list-item-title>
-            <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
-          </v-list-item-content>
-
-          <v-list-item-action>
-            <v-btn
-              text
-              color="teal accent-4"
-              @click="getChart(item.ticker)"
-            >
-              Get Chart
-            </v-btn>
-          </v-list-item-action>
-        </v-list-item>
-      </template>
-    </v-list>
-  </v-card>
+  <v-container>
+    <TinyStocksList
+      @update:selected="showChart"
+    />
+    <br/>
+    <TinyStockChart
+      :stock="selectedStock"
+    />
+    <br/>
+  </v-container>
 </template>
 
 <script>
 import axios from 'axios'
-
-const defaultAvatarUrl = 'https://cdn-icons-png.flaticon.com/512/3781/3781628.png'
+import TinyStocksList from './TinyStocksList.vue'
+import TinyStockChart from './TinyStockChart.vue'
 
 export default {
+  components: {
+    TinyStocksList,
+    TinyStockChart
+  },
+
   data: () => ({
-    items: []
+    selectedStock: null
   }),
 
   methods: {
-    getChart(ticker) {
-      console.warn(ticker)
-    },
+    showChart(stock) {
+      this.selectedStock = stock
 
-    refreshStocksList () {
+      console.warn('getting value deltas for', stock.ticker)
       const vm = this
       axios
-        .get(vm.getAPIEndpoint() + '/tse/stocks')
+        .get(vm.getAPIEndpoint() + '/tse/deltas')
         .then(response => {
           if (response === null || response.data === null) {
-            console.error('ping server: received null response / data')
+            console.error('get stock value deltas: received null response / data')
             return
           }
 
-          console.log('all stocks response', response.data)
+          console.log('get stock value deltas', response.data)
           if (response.data.result !== 'ok') {
             console.error('received non ok response', response.data.message)
             return
           }
 
-          vm.items = [{ header: 'Received stocks' }]
+          const deltas = JSON.parse(response.data.message)
+          console.log(deltas)
 
-          const stocks = JSON.parse(response.data.message)
-          stocks.forEach(s => {
-            vm.items.push({
-              avatar: defaultAvatarUrl,
-              ticker: s.ticker,
-              title: s.ticker,
-              subtitle: s.name,
-            })
-            vm.items.push({ divider: true, inset: true })
-          })
-          if (stocks.length > 0) {
-            vm.items = vm.items.slice(0, -1)
-          }
+          vm.selectedStock.deltas = deltas
         })
         .catch(error => {
           console.log(error)
         })
-    },
-  },
-
-  mounted: function () {
-    this.refreshStocksList()
-    setInterval(() => {
-      console.log('refreshing stocks list ...')
-      this.refreshStocksList()
-    }, 2 * 60000)
-  },
+    }
+  }
 }
 </script>
