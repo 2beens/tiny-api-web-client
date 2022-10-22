@@ -11,7 +11,6 @@
           <v-card-text>
             <v-sheet color="blue">
               <v-sparkline
-                :labels="labels"
                 :value="value"
                 color="rgba(255, 255, 255, .7)"
                 height="100"
@@ -69,31 +68,25 @@ export default {
     }
   },
   data: () => ({
-    deltasRawData: '',
-    labels: [
-    '12am',
-    '3am',
-    '6am',
-    '9am',
-    '12pm',
-    '3pm',
-    '6pm',
-    '9pm',
-    ],
-    value: [
-      800,
-      200,
-      200,
-      200,
-      200,
-      460,
-      250,
-      240,
-    ],
+    deltasRawData: ''
   }),
+  computed: {
+    value() {
+      if (!this.stock || !this.stock.deltas) { return }
+
+      const deltas = []
+      // TODO: sort by timestamp if necessary
+      // debugger; // eslint-disable-line no-debugger
+      this.stock.deltas.forEach(d => {
+        deltas.push(d.delta)
+      })
+
+      return deltas
+    }
+  },
   methods: {
     printRawData() {
-      this.deltasRawData = JSON.stringify(this.stock.deltas)
+      this.deltasRawData = JSON.stringify(this.stock.deltas) + JSON.stringify(this.stock.values)
     }
   }
 }
