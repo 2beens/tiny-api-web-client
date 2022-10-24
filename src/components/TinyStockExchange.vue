@@ -75,7 +75,7 @@ export default {
 
       const vm = this
       axios
-        .get(vm.getAPIEndpoint() + '/tse/deltas')
+        .get(vm.getAPIEndpoint() + `/tse/deltas?ticker=${this.selectedStock.ticker}`)
         .then(response => {
           if (response === null || response.data === null) {
             console.error('get stock value deltas: received null response / data')
